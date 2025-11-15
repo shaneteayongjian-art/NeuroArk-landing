@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>NeuroArk-i · Multi-Agent Digital Assistant</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+        "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #151b2f 0, #05060a 55%, #000 100%);
+      color: #f5f5f5;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .shell {
+      max-width: 960px;
+      width: 100%;
+      padding: 48px 32px;
+      border-radius: 32px;
+      background: rgba(5, 8, 16, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.7);
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+      gap: 40px;
+    }
+    @media (max-width: 840px) {
+      .shell { grid-template-columns: 1fr; padding: 32px 24px; }
+    }
+    .logo-mark {
+      width: 52px; height: 52px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.12);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 20px;
+    }
+    .logo-mark span {
+      width: 32px; height: 32px;
+      border-radius: 999px;
+      border: 2px solid #fff;
+      border-top-color: transparent;
+      border-left-color: transparent;
+      transform: rotate(35deg);
+    }
+    h1 {
+      font-size: 2.5rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .sub {
+      font-size: 0.9rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #9aa4ff;
+      margin-bottom: 24px;
+    }
+    p.desc {
+      font-size: 0.98rem;
+      line-height: 1.7;
+      color: #c6c6d6;
+      margin-bottom: 28px;
+    }
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 32px;
+    }
+    .badge {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(154, 164, 255, 0.4);
+      color: #d6dbff;
+    }
+    .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .btn-primary, .btn-ghost {
+      border-radius: 999px;
+      padding: 12px 22px;
+      font-size: 0.9rem;
+      border: 0;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg,#7f5dff,#4ed3ff);
+      color: #05060a;
+      font-weight: 600;
+    }
+    .btn-ghost {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.22);
+      color: #e9e9f2;
+    }
+    .btn-primary span.icon,
+    .btn-ghost span.icon {
+      font-size: 1.1rem;
+    }
+    .screen {
+      border-radius: 24px;
+      border: 1px solid rgba(255,255,255,.06);
+      background: radial-gradient(circle at top left,#232a4a,#080a14);
+      padding: 18px 18px 22px;
+      box-shadow: 0 18px 50px rgba(0,0,0,.75);
+    }
+    .screen-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      font-size: 0.78rem;
+      color: #aeb2d8;
+    }
+    .dots { display: flex; gap: 6px; }
+    .dot {
+      width: 7px; height: 7px; border-radius: 999px;
+      background: rgba(255,255,255,0.16);
+    }
+    .screen-body {
+      border-radius: 16px;
+      background: rgba(7,10,24,0.92);
+      border: 1px solid rgba(151,176,255,0.28);
+      padding: 16px 16px 14px;
+    }
+    .pill {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: #9bb0ff;
+      margin-bottom: 8px;
+    }
+    .conversation {
+      font-size: 0.86rem;
+      line-height: 1.6;
+      color: #d9ddff;
+      max-height: 220px;
+      overflow: hidden;
+    }
+    .bubble {
+      padding: 8px 11px;
+      border-radius: 12px;
+      margin-bottom: 8px;
+      max-width: 100%;
+    }
+    .bubble.user {
+      background: rgba(109, 134, 255, 0.16);
+      align-self: flex-end;
+    }
+    .bubble.ai {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(151,176,255,0.28);
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <section>
+      <div class="logo-mark">
+        <span></span>
+      </div>
+      <h1>NEUROARK-i</h1>
+      <div class="sub">Multi-Agent Digital Assistant</div>
+      <p class="desc">
+        NeuroArk-i is your system-level AI assistant that reads, thinks and acts
+        across your tools. From research and content to automation and desktop
+        control, it orchestrates multiple agents to help you work like an entire
+        team – from a single command.
+      </p>
+      <div class="badge-row">
+        <span class="badge">Multi-Agent System</span>
+        <span class="badge">Tool Calling & Automation</span>
+        <span class="badge">Desktop & Web Workflows</span>
+      </div>
+      <div class="cta-row">
+        <button class="btn-primary">
+          <span class="icon">➤</span>
+          Join Early Access
+        </button>
+        <button class="btn-ghost">
+          <span class="icon">◎</span>
+          Watch Product Demo
+        </button>
+      </div>
+    </section>
+    <section class="screen">
+      <div class="screen-header">
+        <div class="dots">
+          <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+        </div>
+        <span>NeuroArk-i · Session 01</span>
+      </div>
+      <div class="screen-body">
+        <div class="pill">Example workflow</div>
+        <div class="conversation">
+          <div class="bubble user">
+            “Design a daily content + automation system for my online store.”
+          </div>
+          <div class="bubble ai">
+            Research Agent: map niche, products and audience from web data.
+          </div>
+          <div class="bubble ai">
+            Strategy Agent: generate posting calendar + campaign angles.
+          </div>
+          <div class="bubble ai">
+            Automation Agent: connect store, email and social apps, then schedule
+            daily tasks via LangGraph-powered flows.
+          </div>
+          <div class="bubble ai">
+            NeuroArk-i monitors performance and iterates – so your system
+            becomes smarter every week.
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
