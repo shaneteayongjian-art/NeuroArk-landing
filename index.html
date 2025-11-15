@@ -2,229 +2,207 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>NeuroArk-i · Multi-Agent Digital Assistant</title>
+  <title>NeuroArk-i · Command</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * { box-sizing: border-box; }
     body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
-        "Segoe UI", sans-serif;
-      background: radial-gradient(circle at top, #151b2f 0, #05060a 55%, #000 100%);
-      color: #f5f5f5;
+      margin: 0;
       min-height: 100vh;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #101622 0, #05060a 45%, #000 100%);
+      color: #f5f5f5;
       display: flex;
       align-items: center;
       justify-content: center;
     }
-    .shell {
-      max-width: 960px;
+    .card {
       width: 100%;
-      padding: 48px 32px;
-      border-radius: 32px;
-      background: rgba(5, 8, 16, 0.9);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.7);
-      display: grid;
-      grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
-      gap: 40px;
+      max-width: 720px;
+      background: rgba(8, 10, 18, 0.92);
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      box-shadow: 0 22px 60px rgba(0, 0, 0, 0.7);
+      padding: 28px 28px 24px;
     }
-    @media (max-width: 840px) {
-      .shell { grid-template-columns: 1fr; padding: 32px 24px; }
+    .logo-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 18px;
     }
     .logo-mark {
-      width: 52px; height: 52px;
+      width: 40px;
+      height: 40px;
       border-radius: 999px;
-      border: 1px solid rgba(255,255,255,.12);
-      display: flex; align-items: center; justify-content: center;
-      margin-bottom: 20px;
-    }
-    .logo-mark span {
-      width: 32px; height: 32px;
-      border-radius: 999px;
-      border: 2px solid #fff;
-      border-top-color: transparent;
-      border-left-color: transparent;
-      transform: rotate(35deg);
-    }
-    h1 {
-      font-size: 2.5rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      margin-bottom: 10px;
-    }
-    .sub {
-      font-size: 0.9rem;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: #9aa4ff;
-      margin-bottom: 24px;
-    }
-    p.desc {
-      font-size: 0.98rem;
-      line-height: 1.7;
-      color: #c6c6d6;
-      margin-bottom: 28px;
-    }
-    .badge-row {
+      border: 1px solid rgba(255, 255, 255, 0.5);
       display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 32px;
-    }
-    .badge {
-      font-size: 0.72rem;
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      padding: 6px 12px;
-      border-radius: 999px;
-      border: 1px solid rgba(154, 164, 255, 0.4);
-      color: #d6dbff;
-    }
-    .cta-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-    .btn-primary, .btn-ghost {
-      border-radius: 999px;
-      padding: 12px 22px;
-      font-size: 0.9rem;
-      border: 0;
-      cursor: pointer;
-      display: inline-flex;
       align-items: center;
-      gap: 8px;
+      justify-content: center;
+      font-size: 22px;
     }
-    .btn-primary {
-      background: linear-gradient(135deg,#7f5dff,#4ed3ff);
-      color: #05060a;
-      font-weight: 600;
-    }
-    .btn-ghost {
-      background: transparent;
-      border: 1px solid rgba(255,255,255,0.22);
-      color: #e9e9f2;
-    }
-    .btn-primary span.icon,
-    .btn-ghost span.icon {
-      font-size: 1.1rem;
-    }
-    .screen {
-      border-radius: 24px;
-      border: 1px solid rgba(255,255,255,.06);
-      background: radial-gradient(circle at top left,#232a4a,#080a14);
-      padding: 18px 18px 22px;
-      box-shadow: 0 18px 50px rgba(0,0,0,.75);
-    }
-    .screen-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 10px;
-      font-size: 0.78rem;
-      color: #aeb2d8;
-    }
-    .dots { display: flex; gap: 6px; }
-    .dot {
-      width: 7px; height: 7px; border-radius: 999px;
-      background: rgba(255,255,255,0.16);
-    }
-    .screen-body {
-      border-radius: 16px;
-      background: rgba(7,10,24,0.92);
-      border: 1px solid rgba(151,176,255,0.28);
-      padding: 16px 16px 14px;
-    }
-    .pill {
-      font-size: 0.68rem;
-      text-transform: uppercase;
+    .title-block h1 {
+      font-size: 22px;
+      margin: 0;
       letter-spacing: 0.18em;
-      color: #9bb0ff;
-      margin-bottom: 8px;
     }
-    .conversation {
-      font-size: 0.86rem;
-      line-height: 1.6;
-      color: #d9ddff;
-      max-height: 220px;
-      overflow: hidden;
+    .title-block p {
+      margin: 3px 0 0;
+      font-size: 12px;
+      color: #aab1c6;
     }
-    .bubble {
-      padding: 8px 11px;
+    .prompt-label {
+      margin: 14px 0 4px;
+      font-size: 13px;
+      color: #9da3bc;
+    }
+    .input-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    #command-input {
+      flex: 1;
+      padding: 11px 12px;
       border-radius: 12px;
-      margin-bottom: 8px;
-      max-width: 100%;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(12, 14, 24, 0.96);
+      color: #f5f5f5;
+      font-size: 14px;
+      outline: none;
     }
-    .bubble.user {
-      background: rgba(109, 134, 255, 0.16);
-      align-self: flex-end;
+    #command-input:focus {
+      border-color: #4a8cff;
+      box-shadow: 0 0 0 1px rgba(74, 140, 255, 0.35);
     }
-    .bubble.ai {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(151,176,255,0.28);
+    #run-btn {
+      padding: 0 18px;
+      border-radius: 12px;
+      border: none;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      background: linear-gradient(135deg, #4a8cff, #9f7bff);
+      color: #fff;
+      white-space: nowrap;
+    }
+    #run-btn:hover {
+      filter: brightness(1.08);
+    }
+    .hint {
+      font-size: 11px;
+      color: #7b8198;
+      margin-bottom: 12px;
+    }
+    .examples {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+    .chip {
+      font-size: 11px;
+      padding: 4px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #c4c9de;
+      cursor: pointer;
+    }
+    .chip:hover {
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+    #status {
+      font-size: 12px;
+      color: #8ea4ff;
+      min-height: 16px;
     }
   </style>
 </head>
 <body>
-  <main class="shell">
-    <section>
-      <div class="logo-mark">
-        <span></span>
+  <div class="card">
+    <div class="logo-row">
+      <div class="logo-mark">N</div>
+      <div class="title-block">
+        <h1>NEUROARK-i</h1>
+        <p>Natural language → open the right website</p>
       </div>
-      <h1>NEUROARK-i</h1>
-      <div class="sub">Multi-Agent Digital Assistant</div>
-      <p class="desc">
-        NeuroArk-i is your system-level AI assistant that reads, thinks and acts
-        across your tools. From research and content to automation and desktop
-        control, it orchestrates multiple agents to help you work like an entire
-        team – from a single command.
-      </p>
-      <div class="badge-row">
-        <span class="badge">Multi-Agent System</span>
-        <span class="badge">Tool Calling & Automation</span>
-        <span class="badge">Desktop & Web Workflows</span>
-      </div>
-      <div class="cta-row">
-        <button class="btn-primary">
-          <span class="icon">➤</span>
-          Join Early Access
-        </button>
-        <button class="btn-ghost">
-          <span class="icon">◎</span>
-          Watch Product Demo
-        </button>
-      </div>
-    </section>
-    <section class="screen">
-      <div class="screen-header">
-        <div class="dots">
-          <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-        </div>
-        <span>NeuroArk-i · Session 01</span>
-      </div>
-      <div class="screen-body">
-        <div class="pill">Example workflow</div>
-        <div class="conversation">
-          <div class="bubble user">
-            “Design a daily content + automation system for my online store.”
-          </div>
-          <div class="bubble ai">
-            Research Agent: map niche, products and audience from web data.
-          </div>
-          <div class="bubble ai">
-            Strategy Agent: generate posting calendar + campaign angles.
-          </div>
-          <div class="bubble ai">
-            Automation Agent: connect store, email and social apps, then schedule
-            daily tasks via LangGraph-powered flows.
-          </div>
-          <div class="bubble ai">
-            NeuroArk-i monitors performance and iterates – so your system
-            becomes smarter every week.
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
+    </div>
+
+    <div class="prompt-label">Command</div>
+    <div class="input-row">
+      <input id="command-input"
+             placeholder="e.g. Open YouTube and search AI agents" />
+      <button id="run-btn">Run</button>
+    </div>
+    <div class="hint">
+      This is your first function tool. Type what you want; NeuroArk-i will open a site or search for you.
+    </div>
+
+    <div class="examples">
+      <div class="chip">Open YouTube</div>
+      <div class="chip">Go to Shopee</div>
+      <div class="chip">Open my NeuroArk site</div>
+      <div class="chip">Search LangGraph tutorial</div>
+    </div>
+
+    <div id="status"></div>
+  </div>
+
+  <script>
+    function resolveUrlFromCommand(text) {
+      const t = text.toLowerCase().trim();
+
+      // 1. 特例：你自己的网站
+      if (t.includes("neuroark") && (t.includes("site") || t.includes("home") || t.includes("官网"))) {
+        return "https://neuroark.work";
+      }
+
+      // 2. 常见网站
+      if (t.includes("youtube")) return "https://www.youtube.com";
+      if (t.includes("google")) return "https://www.google.com";
+      if (t.includes("shopee")) return "https://shopee.com.my";
+      if (t.includes("lazada")) return "https://www.lazada.com.my";
+      if (t.includes("discord")) return "https://discord.com/app";
+
+      // 3. 看起来像网址（例如 "open neuroark.work"）
+      const urlMatch = t.match(/([a-z0-9\-]+\.[a-z]{2,})(\/\S*)?/);
+      if (urlMatch) {
+        let u = urlMatch[0];
+        if (!u.startsWith("http://") && !u.startsWith("https://")) {
+          u = "https://" + u;
+        }
+        return u;
+      }
+
+      // 4. 默认：用搜索引擎
+      const q = encodeURIComponent(text);
+      return "https://www.google.com/search?q=" + q;
+    }
+
+    function runCommand() {
+      const input = document.getElementById("command-input");
+      const status = document.getElementById("status");
+      const text = input.value.trim();
+      if (!text) {
+        status.textContent = "Please type a command.";
+        return;
+      }
+      const url = resolveUrlFromCommand(text);
+      status.textContent = "Opening: " + url;
+      window.open(url, "_blank");
+    }
+
+    document.getElementById("run-btn").addEventListener("click", runCommand);
+    document.getElementById("command-input").addEventListener("keydown", (e) => {
+      if (e.key === "Enter") runCommand();
+    });
+
+    document.querySelectorAll(".chip").forEach(chip => {
+      chip.addEventListener("click", () => {
+        document.getElementById("command-input").value = chip.textContent;
+        runCommand();
+      });
+    });
+  </script>
 </body>
 </html>
