@@ -1,0 +1,71 @@
+/*UNTUK PAPARAN HEADER */\
+.header{
+width: 100%
+height: 200px;
+/*LETAKKAN GAMBAR HEADER-> FOLDER IMEJ */
+background: url('imej/banner.jpg');
+background-size: cover;
+color: black;
+text-align: left;
+padding-left: 5%;
+}
+/*UNTUK PAPARAN MENU-KIRI */
+#menu {
+width: 20%
+left: 1%;
+float: left;
+}
+/*UNTUK PAPARAN ISI LAMAN */
+#isi{
+width: 80%
+float: left;
+overflow-wrap: break-word;
+}
+/*UNTUK BUTANG */
+button{
+background-colour:##f17d64;
+colour:white;
+padding:5px 20px;
+display: inline-block;
+}
+button:hover {
+background-colour: #3e8e41;
+}
+
+/*UNTUK BACKGROUND */
+body {
+/* WARNA BACKGROUND */
+background: #f5ecd5;
+}
+
+/*UNTUK PAPARAN TABLE */
+table {
+border-collapse: collapse;
+width: auto;
+table-layout: fixed;
+}
+th,td {
+text-align: left;
+padding: 8fx;
+}
+
+/*UNTUK PAPARAN ROW TABLE */
+tr:nth-child(even) {background-color:white;}
+
+tr:hover {background-colour: #B8E7F4:}
+
+/*UNTUK FUNGSI CETAKAN */
+@media print{
+.header, select, form,#menu, #sembunyi, button
+{display: none;}
+
+#printarea,div {
+top:0;
+left:1%:
+paddding:0;
+width:100%;
+}}
+
+html {
+  font-family: Lucida Sans, sans-serif;
+}

@@ -1,0 +1,9 @@
+# HTTP client and authentication
+requests
+# Load environment variables from a .env file
+python-dotenv
+# Numerical operations and data analysis
+numpy
+pandas
+# Poker hand evaluation (simple Monte‑Carlo)
+#eval7
