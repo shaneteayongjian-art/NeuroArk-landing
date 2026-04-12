@@ -1,3 +1,1380 @@
+
+你可以生成未来 NeuroArk 的robotics 应该是怎样的吗
+
+Thought for 4s
+Edit
+
+
+Uploaded image
+如何删掉这全部 
+
+Thought for 57s
+有两种情况：
+
+A. 直接把整个 GitHub 仓库删掉
+这是最省事的。进入这个 repo 后，点 Settings → General → 拉到最下面 Danger Zone → Delete this repository → 按提示确认、输入仓库名。GitHub 官方现在就是这个流程。
+
+B. 保留这个 repo，只把里面所有文件删空
+GitHub 网页版可以删文件或整个目录，但本质上是逐个文件或逐个目录删：打开文件/文件夹后，在右上角菜单里选 Delete file 或 Delete directory，然后提交 commit。
+
+看你这张图，根目录文件很多，最简单通常不是一个个点删，而是：
+
+git clone https://github.com/你的用户名/NeuroArk-landing.git
+cd NeuroArk-landing
+git rm -r .
+git commit -m "clear repo"
+git push origin main
+这样会把仓库内容清空，但 repo 还在。
+
+你只是想“全部不要了”，那就选 A。
+你只是想“仓库还留着，但内容清空重来”，那就选 B。
+
+你回我一句：删整个 repo 还是 只清空内容，我就直接按你现在这个页面一步一步教你点哪里。
+
+
+那么我原本是有网站了 如何改里面网站的代码通过github 这些file 很多是我不小心放进去的 我要改的是一个网站的代码要在哪里找
+
+Thought for 24s
+你现在这个问题的核心是：
+
+你看到的是整个 repo 的文件，不等于全部都是网站前端代码。
+有些可能是你不小心上传的，真正网站代码通常只在其中一小部分。
+
+先给你最直接的判断方法。
+
+先找“网站真正入口”
+网站代码通常会在这些地方：
+
+1. 纯静态网站
+找这些文件：
+
+index.html
+
+style.css
+
+script.js
+
+assets/
+
+images/
+
+这种最常见，index.html 往往就是首页入口。
+
+2. React / Vite / Next.js 网站
+找这些文件夹或文件：
+
+src/
+
+public/
+
+package.json
+
+vite.config.js
+
+pages/
+
+app/
+
+components/
+
+如果有这些，说明网站代码大概率在这里，不是在那些 .php 文件里。
+
+3. PHP 网站
+找这些文件：
+
+index.php
+
+header.php
+
+footer.php
+
+config.php
+
+database.php
+
+你截图里有很多 .php，像：
+
+dashboard.php
+
+database.php
+
+edit_ahli.php
+
+hadir.php
+
+这些看起来更像另外一个 PHP 项目，不一定是你现在那个 landing page 网站。
+
+你这张图里，我先帮你判断一下
+从你截图看：
+
+strategy/
+
+training/
+
+utils/
+
+adapter.py
+
+api_client.py
+
+这些比较像 Python / AI / script 项目文件
+
+然后又有：
+
+dashboard.php
+
+database.php
+
+edit_ahli.php
+
+hadir.php
+
+这些比较像 PHP 管理系统/attendance system
+
+所以这整个 repo 看起来像是：
+
+很多不同项目文件混在一起了，不一定是单纯的网站 repo。
+
+也就是说：
+
+你要改的网站代码，可能根本不在你现在看到的这些文件里，或者只在其中某个特定文件夹里。
+
+你现在最该做的是这个
+第一步：看网站是从哪里部署出来的
+如果这个网站是 GitHub Pages：
+
+进 repo 的：
+
+Settings → Pages
+
+看它写的是哪一个 source：
+
+main / root
+
+main / docs
+
+gh-pages branch
+
+这一步最重要。
+
+因为它会直接告诉你：
+
+网站到底是从哪个 branch、哪个 folder 发布的。
+
+如果是 GitHub Pages，怎么判断网站代码在哪
+情况 A：Pages source 是 main / root
+那网站代码通常在 repo 根目录，重点找：
+
+index.html
+
+style.css
+
+script.js
+
+如果根目录没有 index.html，那这个 repo 可能根本不是那个网站的正确 source。
+
+情况 B：Pages source 是 main / docs
+那真正网站代码在 docs/ 文件夹。
+
+情况 C：Pages source 是 gh-pages
+那你现在看到的 main 分支可能根本不是网站内容。
+你要切去 gh-pages branch 看。
+
+如果不是 GitHub Pages
+那网站可能部署在：
+
+Vercel
+
+Netlify
+
+cPanel
+
+Hostinger
+
+自己服务器
+
+这种情况下：
+
+GitHub repo 只是存代码，真正上线的网站可能来自某个特定 folder，或者甚至另一个 repo。
+
+你现在不要乱删，先这样做
+安全找法
+先找这些最关键的文件名：
+
+index.html
+
+index.php
+
+package.json
+
+src/
+
+public/
+
+docs/
+
+谁最像网站入口，就先开它。
+
+如果你只是想改网站文字/页面
+纯 HTML 网站
+改：
+
+index.html
+
+about.html
+
+contact.html
+
+React/Vite 网站
+改：
+
+src/App.jsx
+
+src/pages/...
+
+src/components/...
+
+PHP 网站
+改：
+
+index.php
+
+对应页面的 .php
+
+你这情况，我更怀疑是这三种之一
+可能 1
+你把很多无关文件上传进同一个 repo 了。
+真正网站代码只是一部分。
+
+可能 2
+你现在看的 branch 不是网站真正发布 branch。
+
+可能 3
+这个 repo 根本不是你现在上线的网站 repo。
+
+最快确认法
+你现在去看这两个地方：
+
+A. Settings → Pages
+截图给我看
+
+B. repo 根目录有没有：
+index.html
+
+docs/
+
+package.json
+
+截图给我看
+
+我就可以直接告诉你：
+
+哪个才是网站代码，哪些可以删，哪些不能动。
+
+你现在这一步最重要，不要先删。先找到真正网站入口。
+
+
+你可以生成第一个网站就是for 我第一个product 窄agent 的网页吗 我觉得只是design 就是用来marketing 给人家 点进来可以看到我卖什么服务这样子的网页吗就是base on 你的建议我第一个product 应该卖什么
+
+Thought for 1m 6s
+
+Analyzed
+from pathlib import Path
+
+html = r"""<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NeuroArk | WhatsApp Booking Agent</title>
+  <style>
+    :root{
+      --bg:#0a0a0a;
+      --panel:#111111;
+      --soft:#171717;
+      --text:#f5f5f5;
+      --muted:#a3a3a3;
+      --line:#2a2a2a;
+      --accent:#ffffff;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      background:linear-gradient(180deg,#080808 0%,#101010 100%);
+      color:var(--text);
+      font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",sans-serif;
+      line-height:1.55;
+    }
+    .wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+    header{
+      position:sticky;top:0;backdrop-filter:blur(12px);
+      background:rgba(10,10,10,.68);border-bottom:1px solid rgba(255,255,255,.06);z-index:10;
+    }
+    .nav{
+      display:flex;align-items:center;justify-content:space-between;
+      min-height:72px;
+    }
+    .brand{
+      font-weight:700;letter-spacing:.04em;font-size:1.05rem;
+    }
+    .nav-links{display:flex;gap:22px;align-items:center}
+    .nav-links a{color:var(--muted);text-decoration:none;font-size:.95rem}
+    .btn, .btn-ghost{
+      display:inline-flex;align-items:center;justify-content:center;
+      padding:14px 22px;border-radius:999px;text-decoration:none;font-weight:600;
+      transition:.2s ease;
+    }
+    .btn{
+      background:#fff;color:#0a0a0a;border:1px solid #fff;
+      box-shadow:0 10px 30px rgba(255,255,255,.08);
+    }
+    .btn:hover{transform:translateY(-1px)}
+    .btn-ghost{
+      color:#fff;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.02);
+    }
+    .hero{
+      padding:86px 0 56px;
+      display:grid;grid-template-columns:1.05fr .95fr;gap:36px;align-items:center;
+    }
+    .eyebrow{
+      display:inline-flex;gap:10px;align-items:center;
+      padding:8px 12px;border:1px solid rgba(255,255,255,.08);
+      border-radius:999px;color:#d4d4d4;background:rgba(255,255,255,.03);
+      font-size:.86rem;margin-bottom:18px;
+    }
+    h1{
+      font-size:clamp(2.4rem,5.8vw,5.2rem);
+      line-height:1.02;letter-spacing:-.04em;margin:0 0 20px;
+    }
+    .lead{
+      font-size:1.08rem;color:#cfcfcf;max-width:680px;margin-bottom:28px;
+    }
+    .cta-row{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:28px}
+    .mini-proof{
+      display:flex;gap:18px;flex-wrap:wrap;color:var(--muted);font-size:.94rem
+    }
+    .card{
+      background:linear-gradient(180deg,#151515 0%,#101010 100%);
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:28px;
+      padding:24px;
+      box-shadow:0 20px 80px rgba(0,0,0,.35);
+    }
+    .hero-ui{
+      min-height:560px;display:flex;flex-direction:column;gap:18px;
+    }
+    .ui-top{
+      display:flex;align-items:center;justify-content:space-between;
+      padding-bottom:10px;border-bottom:1px solid rgba(255,255,255,.07);
+    }
+    .pill{
+      display:inline-block;padding:8px 12px;border-radius:999px;background:#fff;color:#000;
+      font-size:.82rem;font-weight:700;
+    }
+    .flow{display:grid;gap:14px;margin-top:8px}
+    .flow-item{
+      padding:16px 18px;border-radius:18px;background:rgba(255,255,255,.03);
+      border:1px solid rgba(255,255,255,.06)
+    }
+    .flow-item strong{display:block;margin-bottom:6px}
+    .section{padding:26px 0 32px}
+    .section h2{
+      font-size:clamp(1.6rem,3vw,2.7rem);
+      line-height:1.08;letter-spacing:-.03em;margin:0 0 14px;
+    }
+    .section p.section-intro{
+      color:var(--muted);max-width:760px;margin:0 0 24px;
+    }
+    .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+    .feature-card,.price-card,.step-card,.metric{
+      background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);
+      border-radius:24px;padding:22px;
+    }
+    .feature-card h3,.step-card h3,.price-card h3{margin:0 0 10px;font-size:1.06rem}
+    .muted{color:var(--muted)}
+    .numbers{
+      display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:16px
+    }
+    .metric .big{font-size:2rem;font-weight:700;letter-spacing:-.03em}
+    .steps-line{
+      display:grid;grid-template-columns:repeat(4,1fr);gap:14px
+    }
+    .check{margin:10px 0 0;padding-left:18px;color:#d8d8d8}
+    .check li{margin:8px 0}
+    .pricing{
+      display:grid;grid-template-columns:1.1fr .9fr;gap:18px
+    }
+    .price{
+      font-size:3rem;font-weight:800;letter-spacing:-.04em;margin:10px 0 12px;
+    }
+    .quote{
+      font-size:1.15rem;color:#f0f0f0
+    }
+    footer{
+      padding:38px 0 70px;color:#8f8f8f;font-size:.92rem
+    }
+    .divider{height:1px;background:rgba(255,255,255,.06);margin:26px 0}
+    @media (max-width:980px){
+      .hero,.pricing,.grid-3,.grid-2,.steps-line,.numbers{grid-template-columns:1fr}
+      .hero{padding-top:54px}
+      .hero-ui{min-height:auto}
+      .nav-links a:not(.btn){display:none}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap nav">
+      <div class="brand">NEUROARK</div>
+      <div class="nav-links">
+        <a href="#problem">Problem</a>
+        <a href="#solution">Solution</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#faq">FAQ</a>
+        <a class="btn" href="#cta">Book Demo</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="hero">
+      <div>
+        <div class="eyebrow">First Narrow Agent · WhatsApp Booking & Follow-up</div>
+        <h1>把 WhatsApp 询问<br>变成已确认预约</h1>
+        <p class="lead">
+          NeuroArk 的第一个产品，不是“大而全 AI”，而是一个先能收钱、先能解决真实问题的窄 agent：
+          专门帮美容 / 理发 / 小型服务店自动回复、筛选客户、安排预约、提醒到店、追踪 no-show。
+        </p>
+        <div class="cta-row">
+          <a class="btn" href="#cta">预约 15 分钟 Demo</a>
+          <a class="btn-ghost" href="#solution">看它怎么运作</a>
+        </div>
+        <div class="mini-proof">
+          <span>✓ 专注单一场景</span>
+          <span>✓ 容易解释价值</span>
+          <span>✓ Setup fee + Monthly fee</span>
+          <span>✓ 适合你第一张现金流单</span>
+        </div>
+      </div>
+
+      <div class="card hero-ui">
+        <div class="ui-top">
+          <div>
+            <div style="font-size:.88rem;color:#a3a3a3">Agent Snapshot</div>
+            <div style="font-size:1.25rem;font-weight:700;margin-top:4px">NeuroArk Booking Agent</div>
+          </div>
+          <div class="pill">LIVE FLOW</div>
+        </div>
+
+        <div class="flow">
+          <div class="flow-item">
+            <strong>1. 客户发 WhatsApp</strong>
+            “今天还有位置吗？” “洗剪染多少钱？” “我想约明天下午。”
+          </div>
+          <div class="flow-item">
+            <strong>2. Agent 自动回应</strong>
+            发送价目、时间选项、服务说明，判断客户是否有购买意图。
+          </div>
+          <div class="flow-item">
+            <strong>3. 自动收集信息</strong>
+            姓名、时间、服务类型、预算、备注，统一写入表单 / CRM / Google Sheet。
+          </div>
+          <div class="flow-item">
+            <strong>4. 自动预约与提醒</strong>
+            确认时段、发送提醒、减少 no-show，店家不用一直手动回复。
+          </div>
+        </div>
+
+        <div class="divider"></div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
+          <div class="metric"><div class="big">24/7</div><div class="muted">即时回复</div></div>
+          <div class="metric"><div class="big">1→N</div><div class="muted">同时处理询问</div></div>
+          <div class="metric"><div class="big">↓</div><div class="muted">减少漏单与忘记跟进</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="problem">
+      <h2>为什么这会是你第一个该卖的 product</h2>
+      <p class="section-intro">
+        先不要做“万能 AI 公司首页”。第一单要卖的是一个老板一看就懂、今天就可能愿意付钱的东西。
+        对本地中小商家来说，最痛的通常不是“没有 AI”，而是：回复慢、漏掉客户、预约混乱、跟进断掉。
+      </p>
+
+      <div class="grid-3">
+        <div class="feature-card">
+          <h3>痛点够真实</h3>
+          <div class="muted">WhatsApp 询问很多，但老板忙、员工忙、回复慢，最后客户流失。</div>
+        </div>
+        <div class="feature-card">
+          <h3>价值够直接</h3>
+          <div class="muted">不是卖“AI 很厉害”，而是卖“帮你多接单、少漏单、少 no-show”。</div>
+        </div>
+        <div class="feature-card">
+          <h3>交付够简单</h3>
+          <div class="muted">先做单一行业、单一流程，7 天内能上线第一个版本，容易收 setup fee。</div>
+        </div>
+      </div>
+
+      <div class="numbers">
+        <div class="metric"><div class="big">窄</div><div class="muted">场景越窄，越容易卖</div></div>
+        <div class="metric"><div class="big">快</div><div class="muted">快上线，快拿证言</div></div>
+        <div class="metric"><div class="big">稳</div><div class="muted">固定交付，固定价格</div></div>
+        <div class="metric"><div class="big">清</div><div class="muted">ROI 容易讲清楚</div></div>
+      </div>
+    </section>
+
+    <section class="section" id="solution">
+      <h2>产品定义</h2>
+      <p class="section-intro">
+        先把它定义成一个非常清楚的东西：<strong>WhatsApp Booking & Follow-up Agent for local service businesses</strong>。
+        第一版建议你再收窄到一个行业，比如 <strong>美容 / 理发店</strong>。
+      </p>
+
+      <div class="grid-2">
+        <div class="feature-card">
+          <h3>它做什么</h3>
+          <ul class="check">
+            <li>自动回复常见问题</li>
+            <li>给出服务价目与可预约时间</li>
+            <li>收集客户资料与需求</li>
+            <li>确认预约并发送提醒</li>
+            <li>整理到表格 / CRM / 日历</li>
+            <li>事后自动跟进与提醒复购</li>
+          </ul>
+        </div>
+        <div class="feature-card">
+          <h3>它不做什么</h3>
+          <ul class="check">
+            <li>不一开始就做万能 agent</li>
+            <li>不先碰复杂 ERP / 全公司系统</li>
+            <li>不先做很重的自定义 mobile app</li>
+            <li>不先卖“未来 AGI”概念</li>
+            <li>先只卖一个能直接提高转化的结果</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>How it works</h2>
+      <p class="section-intro">
+        这页最适合用给客户看。不要讲太多技术，只讲老板能听懂的流程。
+      </p>
+      <div class="steps-line">
+        <div class="step-card">
+          <h3>01 收到询问</h3>
+          <div class="muted">客户从 WhatsApp 进来，询问价格、时间、服务内容。</div>
+        </div>
+        <div class="step-card">
+          <h3>02 自动筛选</h3>
+          <div class="muted">Agent 根据预设逻辑回复，判断意图并收集预约信息。</div>
+        </div>
+        <div class="step-card">
+          <h3>03 写入系统</h3>
+          <div class="muted">自动同步到表格、日历或内部管理表，避免人工遗漏。</div>
+        </div>
+        <div class="step-card">
+          <h3>04 到店转化</h3>
+          <div class="muted">自动提醒、确认、减少 no-show，把询问变成实际到店。</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>为什么客户会买</h2>
+      <p class="section-intro">
+        因为这不是在卖技术，而是在卖一个很具体的经营结果。
+      </p>
+      <div class="grid-3">
+        <div class="feature-card">
+          <h3>更快回复</h3>
+          <div class="muted">客户不用等老板忙完才回，减少“看到不回就走掉”。</div>
+        </div>
+        <div class="feature-card">
+          <h3>更少漏单</h3>
+          <div class="muted">每一个询问都进入固定流程，不靠人脑记忆。</div>
+        </div>
+        <div class="feature-card">
+          <h3>更高到店率</h3>
+          <div class="muted">提醒与确认机制能降低 no-show，提升实际转化。</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="pricing">
+      <h2>建议的第一版收费方式</h2>
+      <p class="section-intro">
+        第一单不要太复杂。卖固定结果、固定范围、固定价格。
+      </p>
+      <div class="pricing">
+        <div class="price-card">
+          <h3>Starter Setup</h3>
+          <div class="price">RM499 – RM999</div>
+          <div class="muted">
+            适合你第一批客户。先帮他们搭好 FAQ、预约流程、提醒逻辑、表格同步。
+          </div>
+          <ul class="check">
+            <li>基础话术设置</li>
+            <li>预约流程搭建</li>
+            <li>Google Sheet / CRM 接入</li>
+            <li>1 次上线调整</li>
+          </ul>
+        </div>
+        <div class="price-card">
+          <h3>Monthly Support</h3>
+          <div class="price">RM199 – RM399</div>
+          <div class="muted">
+            后续维护、修改话术、优化流程、查看数据、持续改进转化。
+          </div>
+          <ul class="check">
+            <li>每月流程优化</li>
+            <li>文本 / 逻辑更新</li>
+            <li>基础报表与支持</li>
+            <li>持续维护服务</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>给客户看的文案角度</h2>
+      <div class="card">
+        <p class="quote">
+          “We help local service businesses turn WhatsApp inquiries into confirmed bookings — automatically.”
+        </p>
+        <p class="muted" style="margin-top:14px">
+          中文可写成：<br>
+          <strong>把 WhatsApp 询问自动变成已确认预约。</strong><br>
+          不再漏掉客户，不再手忙脚乱回复，不再靠人脑记住每一个预约。
+        </p>
+      </div>
+    </section>
+
+    <section class="section" id="faq">
+      <h2>FAQ</h2>
+      <div class="grid-2">
+        <div class="feature-card">
+          <h3>这个是 chatbot 吗？</h3>
+          <div class="muted">不只是聊天，而是一个围绕“询问 → 预约 → 提醒 → 跟进”设计的窄 agent。</div>
+        </div>
+        <div class="feature-card">
+          <h3>适合谁？</h3>
+          <div class="muted">最适合 WhatsApp 是主要入口、而且预约/咨询量重复高的小型服务业。</div>
+        </div>
+        <div class="feature-card">
+          <h3>为什么先做这个？</h3>
+          <div class="muted">因为它最容易解释、最容易卖、最容易交付，也最容易拿到第一笔现金流。</div>
+        </div>
+        <div class="feature-card">
+          <h3>以后可以扩展吗？</h3>
+          <div class="muted">可以。先从一个窄场景拿下，再扩到更多行业与更多 agent workflow。</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="cta">
+      <div class="card" style="padding:34px">
+        <h2 style="margin-bottom:10px">你的第一个 product，不该是“最大”，而该是“最容易成交”</h2>
+        <p class="section-intro" style="margin-bottom:20px">
+          先卖一个老板看得懂、愿意付钱、7 天内能上线的窄 agent。<br>
+          从第一笔 setup fee 开始，让 NeuroArk 真正进入市场。
+        </p>
+        <div class="cta-row">
+          <a class="btn" href="#">Book a Demo</a>
+          <a class="btn-ghost" href="#">WhatsApp Us</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="wrap">
+    NeuroArk — Narrow agents first. Revenue first. Then expand.
+  </footer>
+</body>
+</html>
+"""
+
+path = Path("/mnt/data/neuroark_first_product_landing.html")
+path.write_text(html, encoding="utf-8")
+print(f"Saved to {path}")
+STDOUT/STDERR
+Saved to /mnt/data/neuroark_first_product_landing.html
+可以，我已经先帮你做了一个第一版 landing page，主题是我最建议你先卖的第一个窄 agent：
+
+WhatsApp Booking & Follow-up Agent
+先聚焦给 美容 / 理发 / 小型服务店 用，最容易解释、最容易成交、也最容易拿第一笔现金流。
+
+下载这里：
+
+我对你现在最建议的第一个 product，不是“大而全 AI agent”，而是这个：
+
+NeuroArk Booking Agent
+一句话就是：
+把 WhatsApp 询问，自动变成已确认预约。
+
+为什么我选这个当你第一个卖的东西：
+
+老板一听就懂
+不是卖抽象 AI，而是卖“少漏单、多预约、少 no-show”。
+
+容易收费
+可以直接收：
+
+Setup fee
+
+Monthly maintenance fee
+
+容易先交付
+第一版不需要很重的系统，先把：
+
+自动回复
+
+收集客户资料
+
+预约确认
+
+提醒
+
+表格同步
+跑通就已经能卖。
+
+符合你“窄 agent 先落地”的路线
+先赢一个小场景，再扩。
+
+我给你这个网页已经是偏 marketing landing page 风格了，适合拿来展示：
+
+你卖什么
+
+帮谁解决什么问题
+
+怎么运作
+
+为什么值得付费
+
+价格大概怎么收
+
+如果你要，我下一步可以直接继续帮你做其中一个版本：
+更像 Apple/Grok 那种更高级的黑白极简版，或者直接改成你可以放去 GitHub Pages 的正式版本。 
+
+
+
+
+很乱尤其是字体 然后可以用英文吗
+
+
+Thought for 19s
+
+Analyzed
+from pathlib import Path
+
+html = """<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NeuroArk — WhatsApp Booking Agent</title>
+  <style>
+    :root{
+      --bg:#0b0b0b;
+      --bg-soft:#121212;
+      --card:#151515;
+      --line:#242424;
+      --text:#f5f5f5;
+      --muted:#a1a1aa;
+      --white:#ffffff;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--text);
+      font-family:ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      line-height:1.55;
+      -webkit-font-smoothing:antialiased;
+      text-rendering:optimizeLegibility;
+    }
+
+    a{color:inherit;text-decoration:none}
+    .container{max-width:1120px;margin:0 auto;padding:0 24px}
+    .section{padding:88px 0}
+    .small{font-size:14px;color:var(--muted)}
+    .muted{color:var(--muted)}
+
+    header{
+      position:sticky;
+      top:0;
+      z-index:50;
+      background:rgba(11,11,11,.78);
+      backdrop-filter:blur(14px);
+      border-bottom:1px solid rgba(255,255,255,.06);
+    }
+    .nav{
+      height:72px;
+      display:flex;
+    align-items:center;
+      justify-content:space-between;
+      gap:24px;
+    }
+    .brand{
+      font-size:18px;
+      font-weight:700;
+      letter-spacing:.02em;
+    }
+    .nav-links{
+      display:flex;
+      align-items:center;
+      gap:22px;
+    }
+    .nav-links a{
+      color:var(--muted);
+      font-size:14px;
+    }
+
+    .btn, .btn-secondary{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      height:48px;
+      padding:0 20px;
+      border-radius:999px;
+      font-size:14px;
+      font-weight:600;
+      transition:.18s ease;
+      border:1px solid transparent;
+      white-space:nowrap;
+    }
+    .btn{
+      background:var(--white);
+      color:#0b0b0b;
+    }
+    .btn:hover{transform:translateY(-1px)}
+    .btn-secondary{
+      border-color:rgba(255,255,255,.10);
+      color:var(--text);
+      background:transparent;
+    }
+    .btn-secondary:hover{
+      border-color:rgba(255,255,255,.18);
+      background:rgba(255,255,255,.02);
+    }
+
+    .hero{
+      padding:96px 0 72px;
+      display:grid;
+      grid-template-columns:1.15fr .85fr;
+      gap:32px;
+      align-items:center;
+    }
+    .eyebrow{
+      display:inline-block;
+      padding:8px 12px;
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:999px;
+      color:#d4d4d8;
+      font-size:13px;
+      margin-bottom:20px;
+      background:rgba(255,255,255,.02);
+    }
+    h1{
+      margin:0 0 18px;
+      font-size:clamp(42px,7vw,82px);
+      line-height:.98;
+      letter-spacing:-.05em;
+      font-weight:750;
+    }
+    .hero p{
+      margin:0 0 28px;
+      color:#d4d4d8;
+      font-size:18px;
+      max-width:700px;
+    }
+    .hero-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      margin-bottom:22px;
+    }
+    .hero-notes{
+      display:flex;
+      flex-wrap:wrap;
+      gap:16px;
+      color:var(--muted);
+      font-size:14px;
+    }
+
+    .panel{
+      background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      border:1px solid rgba(255,255,255,.07);
+      border-radius:28px;
+      padding:24px;
+    }
+    .demo-card{
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+    }
+    .demo-top{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      padding-bottom:10px;
+      border-bottom:1px solid rgba(255,255,255,.06);
+    }
+    .badge{
+      font-size:12px;
+      font-weight:700;
+      background:#fff;
+      color:#000;
+      border-radius:999px;
+      padding:7px 10px;
+    }
+    .flow{
+      display:grid;
+      gap:12px;
+      margin-top:4px;
+    }
+    .flow-item{
+      background:rgba(255,255,255,.025);
+      border:1px solid rgba(255,255,255,.05);
+      border-radius:18px;
+      padding:16px;
+    }
+    .flow-item strong{
+      display:block;
+      margin-bottom:6px;
+      font-size:15px;
+    }
+
+    h2{
+      margin:0 0 14px;
+      font-size:clamp(28px,4vw,44px);
+      line-height:1.02;
+      letter-spacing:-.04em;
+    }
+    .intro{
+      margin:0 0 24px;
+      max-width:760px;
+      color:var(--muted);
+      font-size:17px;
+    }
+
+    .grid-3{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:18px;
+    }
+    .grid-2{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:18px;
+    }
+    .card{
+      background:var(--card);
+      border:1px solid rgba(255,255,255,.06);
+      border-radius:24px;
+      padding:22px;
+    }
+    .card h3{
+      margin:0 0 10px;
+      font-size:18px;
+      letter-spacing:-.02em;
+    }
+    .card p{
+      margin:0;
+      color:var(--muted);
+      font-size:15px;
+    }
+
+    .steps{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:16px;
+    }
+    .step-number{
+      display:inline-block;
+      margin-bottom:10px;
+      color:var(--muted);
+      font-size:13px;
+      letter-spacing:.08em;
+    }
+
+    .pricing{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:18px;
+    }
+    .price{
+      margin:10px 0 14px;
+      font-size:42px;
+      line-height:1;
+      letter-spacing:-.05em;
+      font-weight:760;
+    }
+    ul{
+      margin:14px 0 0;
+      padding-left:18px;
+      color:#d4d4d8;
+    }
+    li{margin:8px 0}
+
+    .quote{
+      font-size:24px;
+      line-height:1.25;
+      letter-spacing:-.03em;
+      margin:0 0 10px;
+    }
+
+    .cta{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:24px;
+    }
+
+    footer{
+      padding:34px 0 60px;
+      color:var(--muted);
+      font-size:14px;
+    }
+
+    @media (max-width: 960px){
+      .hero,
+      .grid-3,
+      .grid-2,
+      .steps,
+      .pricing,
+      .cta{
+        grid-template-columns:1fr;
+        display:grid;
+      }
+      .cta{gap:18px}
+      .nav-links a:not(.btn){display:none}
+      .hero{padding-top:72px}
+    }
+
+    @media (max-width: 640px){
+      .container{padding:0 18px}
+      .section{padding:68px 0}
+      .nav{height:66px}
+      .btn, .btn-secondary{width:100%}
+      .hero-actions{display:grid;grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <div class="brand">NEUROARK</div>
+      <div class="nav-links">
+        <a href="#problem">Problem</a>
+        <a href="#product">Product</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#contact" class="btn">Book Demo</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <div>
+        <div class="eyebrow">First Product · Narrow Agent</div>
+        <h1>Turn WhatsApp inquiries into confirmed bookings.</h1>
+        <p>
+          NeuroArk Booking Agent is a focused AI workflow for service businesses.
+          It replies faster, captures lead details, confirms appointments, and reduces missed bookings.
+        </p>
+        <div class="hero-actions">
+          <a class="btn" href="#contact">Book a Demo</a>
+          <a class="btn-secondary" href="#product">See How It Works</a>
+        </div>
+        <div class="hero-notes">
+          <span>Built for salons, barbers, clinics, coaches</span>
+          <span>Simple setup</span>
+          <span>Monthly support</span>
+        </div>
+      </div>
+
+      <div class="panel demo-card">
+        <div class="demo-top">
+          <div>
+            <div class="small">Product Snapshot</div>
+            <div style="font-size:22px;font-weight:700;margin-top:4px">NeuroArk Booking Agent</div>
+          </div>
+          <div class="badge">LIVE FLOW</div>
+        </div>
+
+        <div class="flow">
+          <div class="flow-item">
+            <strong>1. A customer sends a message</strong>
+            “Do you have a slot tomorrow?” “How much is the treatment?” “Can I book for 3 PM?”
+          </div>
+          <div class="flow-item">
+            <strong>2. The agent replies instantly</strong>
+            It answers common questions, shares service details, and guides the customer to the next step.
+          </div>
+          <div class="flow-item">
+            <strong>3. Booking data is captured</strong>
+            Name, service type, preferred time, and notes are collected into one clean workflow.
+          </div>
+          <div class="flow-item">
+            <strong>4. The booking is confirmed</strong>
+            The customer receives confirmation and reminders so fewer appointments are lost.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="problem">
+      <h2>A clear first product for a clear first sale.</h2>
+      <p class="intro">
+        Your first product should not be a giant AI platform.
+        It should be something a business owner understands in ten seconds and can pay for quickly.
+        The pain is simple: slow replies, missed leads, messy scheduling, and weak follow-up.
+      </p>
+
+      <div class="grid-3">
+        <div class="card">
+          <h3>Real pain</h3>
+          <p>Businesses already get inquiries through WhatsApp, but they often reply late or forget to follow up.</p>
+        </div>
+        <div class="card">
+          <h3>Clear value</h3>
+          <p>You are not selling “AI.” You are selling faster replies, fewer missed bookings, and better conversion.</p>
+        </div>
+        <div class="card">
+          <h3>Fast delivery</h3>
+          <p>A narrow workflow is easier to build, explain, test, and charge for than a broad all-in-one system.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="product">
+      <h2>What the product does</h2>
+      <p class="intro">
+        Start with one narrow use case: a WhatsApp Booking and Follow-up Agent for local service businesses.
+      </p>
+
+      <div class="grid-2">
+        <div class="card">
+          <h3>Included</h3>
+          <ul>
+            <li>Instant replies to common questions</li>
+            <li>Service and pricing guidance</li>
+            <li>Lead data capture</li>
+            <li>Appointment confirmation</li>
+            <li>Reminder messages</li>
+            <li>Google Sheet or CRM logging</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Not included in V1</h3>
+          <ul>
+            <li>No giant all-purpose AI assistant</li>
+            <li>No complex custom mobile app</li>
+            <li>No heavy enterprise workflow at the start</li>
+            <li>No vague “future AI” promise</li>
+            <li>Just one direct business result</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>How it works</h2>
+      <p class="intro">
+        Keep the message simple. Business owners care about the outcome, not the technical stack.
+      </p>
+
+      <div class="steps">
+        <div class="card">
+          <div class="step-number">STEP 01</div>
+          <h3>Inquiry comes in</h3>
+          <p>A customer asks about availability, pricing, or services on WhatsApp.</p>
+        </div>
+        <div class="card">
+          <div class="step-number">STEP 02</div>
+          <h3>Agent responds</h3>
+          <p>The workflow answers, qualifies, and asks for the details needed to move forward.</p>
+        </div>
+        <div class="card">
+          <div class="step-number">STEP 03</div>
+          <h3>Details are saved</h3>
+          <p>The information is logged into a clean system instead of getting lost in chat.</p>
+        </div>
+        <div class="card">
+          <div class="step-number">STEP 04</div>
+          <h3>Booking is secured</h3>
+          <p>The customer receives confirmation and reminders, improving show-up rate.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Why a client would buy this</h2>
+      <div class="grid-3">
+        <div class="card">
+          <h3>Faster response time</h3>
+          <p>Customers do not need to wait until staff are free to reply.</p>
+        </div>
+        <div class="card">
+          <h3>Fewer missed opportunities</h3>
+          <p>Every inquiry enters a structured process instead of depending on memory.</p>
+        </div>
+        <div class="card">
+          <h3>Better booking conversion</h3>
+          <p>Follow-up and reminders help turn interest into confirmed appointments.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="pricing">
+      <h2>Simple first pricing</h2>
+      <p class="intro">
+        Keep pricing fixed, easy to understand, and tied to a clear scope.
+      </p>
+
+      <div class="pricing">
+        <div class="card">
+          <h3>Starter Setup</h3>
+          <div class="price">RM499–999</div>
+          <p>For the first implementation: workflow setup, message logic, form capture, and basic syncing.</p>
+          <ul>
+            <li>Initial workflow setup</li>
+            <li>Core reply logic</li>
+            <li>Booking capture flow</li>
+            <li>One revision round</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Monthly Support</h3>
+          <div class="price">RM199–399</div>
+          <p>For updates, optimization, support, and gradual improvement over time.</p>
+          <ul>
+            <li>Text and logic updates</li>
+            <li>Small workflow adjustments</li>
+            <li>Basic support</li>
+            <li>Ongoing maintenance</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="panel">
+        <p class="quote">We help local service businesses turn WhatsApp inquiries into confirmed bookings — automatically.</p>
+        <p class="muted">That is the core message. Clear, direct, and easy to sell.</p>
+      </div>
+    </section>
+
+    <section class="section" id="contact">
+      <div class="panel cta">
+        <div>
+          <h2 style="margin-bottom:10px">Start narrow. Sell fast. Expand later.</h2>
+          <p class="intro" style="margin:0;max-width:640px">
+            A strong first product is not the biggest one.
+            It is the one that solves one real pain, gets the first client, and starts the revenue loop.
+          </p>
+        </div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+          <a class="btn" href="#">Book a Demo</a>
+          <a class="btn-secondary" href="#">WhatsApp Us</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="container">
+    NeuroArk — narrow agents first, then scale.
+  </footer>
+</body>
+</html>
+"""
+
+path = Path("/mnt/data/neuroark_booking_agent_clean_english.html")
+path.write_text(html, encoding="utf-8")
+print(f"Saved to {path}")
+STDOUT/STDERR
+Saved to /mnt/data/neuroark_booking_agent_clean_english.html
+可以，我已经帮你重做成一个更干净的 English version，字体和排版都简化了，整体会比上一版整齐很多。
+
+下载这里：
+
+这一版我改了这些：
+
+全英文
+
+更少文字堆叠
+
+更统一的字体与字重
+
+更像干净的 SaaS landing page
+
+黑白极简一点，没有上一版那么乱
+
+我建议你下一步可以继续做其中一个方向：
+
+方向 A：更像 Apple / luxury tech
+更高级、更有品牌感、偏未来感
+
+方向 B：更像真实能卖服务的 SaaS 页面
+更强调：
+
+problem
+
+solution
+
+pricing
+
+CTA
+
+social proof
+
+如果你要，我下一步直接帮你做 更高级的满级版 homepage，风格对齐你想要的 NeuroArk 黑白极简未来感。 
+
+
+
+
+还是感觉你的字太ai了可以用人话还是像我平时如何讲吗
+
+
+Thought for 14s
+
+Analyzed
+可以，这次我直接改成更像人讲的版本，没那么“AI marketing copy”了。
+
+新版本在这里：
+
+我这次主要改的是：
+
+标题更直接
+
+句子更短
+
+少一点“solution / conversion / workflow”那种味道
+
+更像你平时会讲的：简单、直接、先讲结果
+
+例如现在首页主句已经变成这种：
+
+Still replying to every WhatsApp by hand?
+
+We help small businesses turn WhatsApp chats into real bookings.
+
+No big AI platform. Just one job done properly.
+
+这种会比上一版更像真人，也更容易让老板一眼看懂。
+
+下一步我建议直接做两种里面的一种：
+1. 更像你本人讲话的版本，更 raw、更直接、更有 Shane 味道。
+2. 更像拿去见客户的版本，还是人话，但稍微 professional 一点。
+
+我个人建议你的网站要走 “人话 + client-safe”，不要太 raw，不然会像私人笔记，不像在卖服务。
+如果你要，我下一步直接帮你做一个 像真正创业者首页那样的终版文案。 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -349,3 +1726,1785 @@
   </footer>
 </body>
 </html>
+
+感觉没有拿到那个point 人家看一眼有点看不明白的感觉有什么办法让人家更容易明白
+
+
+Thought for 21s
+有。你现在缺的不是“更漂亮”，而是3 秒内让人懂。
+
+你这页目前的问题通常是这几个：
+
+第一，你在讲你的产品，不是先讲对方的问题。
+第二，你讲得太广，人家不知道你到底帮谁。
+第三，第一页没有把“我能得到什么结果”说死。
+第四，像 agent / workflow / booking flow / product 这些词，对普通老板还是有距离。
+
+真正更容易明白的方法，是把首页第一屏改成这个逻辑：
+
+谁 + 有什么痛 + 你帮他得到什么结果
+
+不是：
+“NeuroArk Booking Agent”
+而是：
+Still losing customers on WhatsApp?
+
+不是：
+“WhatsApp Booking Agent for local service businesses”
+而是：
+We help salons reply faster, confirm bookings, and stop losing customers in chat.
+
+你现在最该做的，是再缩窄一次。
+
+不要先写：
+
+small service businesses
+
+salons, barbers, clinics, coaches
+
+因为人家一眼会模糊。
+
+先只写一个：
+
+For salons
+或者
+For hair salons
+
+这样人一看就懂：
+“哦，这个就是给 salon 的。”
+
+你可以直接把第一屏改成这种。
+
+更容易明白的第一屏
+Headline
+Still losing bookings on WhatsApp?
+
+Subheadline
+We help salons reply faster, confirm appointments, and stop losing customers in chat.
+
+3 small points
+Auto reply to common questions
+
+Collect booking details properly
+
+Send reminders before the appointment
+
+CTA
+Book Demo
+WhatsApp Us
+
+这比“NeuroArk Booking Agent”清楚很多。
+因为老板第一眼不会想知道你叫什么，他先想知道：
+
+“这个到底是不是在解决我的问题？”
+
+你还可以再狠一点
+如果你想更像“卖服务”，首页甚至可以直接写：
+
+Version 2
+Your staff are busy. Your WhatsApp is messy. Customers get lost.
+
+We set up a simple WhatsApp booking system for salons so people get replies faster and more bookings get confirmed.
+
+这个就更像真人，也更像老板听得懂的话。
+
+最重要的一点：不要一开始就讲“agent”
+“agent”这个词是你觉得清楚，
+但客户不一定清楚。
+
+对客户来说，他更容易懂的是：
+
+auto reply
+
+booking system
+
+WhatsApp booking setup
+
+appointment reminder system
+
+所以首页文案最好是：
+
+WhatsApp Booking Setup for Salons
+或者
+We help salons handle WhatsApp bookings better
+
+等对方继续往下看，你再慢慢讲背后是 AI。
+
+最好加一个“Before / After”
+因为这个最容易秒懂。
+
+Before
+Slow replies
+
+Missed messages
+
+Messy booking process
+
+After
+Faster replies
+
+Proper booking flow
+
+More confirmed appointments
+
+这种东西一眼就懂，比解释系统更有力。
+
+你现在的页面还少一个东西
+少了一个非常直接的句子：
+
+What do I get if I pay you?
+
+你应该直接写：
+
+In 7 days, we set up a simple WhatsApp booking system for your salon.
+
+或者：
+
+We set up your WhatsApp replies, booking flow, and reminder messages for you.
+
+这句话很关键。
+因为它把抽象服务变成具体交付。
+
+最建议你的首页结构
+第一屏
+一句痛点 + 一句结果 + 两个按钮
+
+第二块
+“Who this is for”
+只写：
+
+salons
+
+beauty studios
+
+barbershops
+
+第三块
+“How it works”
+只要 3 步：
+
+Customer messages you
+
+We help reply and collect booking details
+
+Booking gets confirmed
+
+第四块
+“What you get”
+
+auto replies
+
+booking capture
+
+reminder messages
+
+simple setup
+
+第五块
+pricing
+
+我帮你直接改成一句最有 point 的版本
+你可以先试这个：
+
+Hero copy
+Still losing bookings on WhatsApp?
+We help salons reply faster, confirm appointments, and stop losing customers in chat.
+
+Small line below
+Simple setup. Clear pricing. No complicated system.
+
+Buttons
+Book Demo
+WhatsApp Us
+
+如果你要更像你平时讲话，我会写成这样：
+
+More Shane-like
+People already message you on WhatsApp. The problem is you reply late, things get messy, and some customers just disappear. We fix that.
+
+这个比较有人味，但拿来卖服务的话，还是前一个更稳。
+
+我觉得你下一步不是再“微调一点字”，而是直接把整个首页改成：
+
+痛点先行 + 结果先行 + 只服务一个行业
+
+你要的话，我现在可以直接帮你重写成一个一眼就懂的终版首页文案。
+
+
+可以试看 可能design 也可以换看更有效的看你自己吧
+
+
+Thought for 11s
+
+Analyzed
+from pathlib import Path
+
+html = """<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NeuroArk — WhatsApp Booking Setup for Salons</title>
+  <style>
+    :root{
+      --bg:#0a0a0a;
+      --panel:#131313;
+      --panel-2:#171717;
+      --line:#262626;
+      --text:#f5f5f5;
+      --muted:#a1a1aa;
+      --white:#ffffff;
+      --soft:#d4d4d8;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      background:linear-gradient(180deg,#090909 0%,#0f0f0f 100%);
+      color:var(--text);
+      font-family:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing:antialiased;
+      text-rendering:optimizeLegibility;
+      line-height:1.55;
+    }
+    a{text-decoration:none;color:inherit}
+    .container{max-width:1140px;margin:0 auto;padding:0 24px}
+    header{
+      position:sticky;top:0;z-index:50;
+      backdrop-filter:blur(14px);
+      background:rgba(10,10,10,.78);
+      border-bottom:1px solid rgba(255,255,255,.06);
+    }
+    .nav{
+      height:72px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:20px;
+    }
+    .brand{
+      font-size:18px;
+      font-weight:750;
+      letter-spacing:.03em;
+    }
+    .nav-links{
+      display:flex;gap:22px;align-items:center;
+    }
+    .nav-links a{
+      color:var(--muted);
+      font-size:14px;
+    }
+    .btn,.btn-ghost{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      height:48px;
+      padding:0 20px;
+      border-radius:999px;
+      font-size:14px;
+      font-weight:650;
+      border:1px solid transparent;
+      transition:.18s ease;
+      white-space:nowrap;
+    }
+    .btn{background:#fff;color:#090909}
+    .btn-ghost{
+      border-color:rgba(255,255,255,.10);
+      color:var(--text);
+      background:rgba(255,255,255,.02);
+    }
+    .btn:hover,.btn-ghost:hover{transform:translateY(-1px)}
+
+    .hero{
+      padding:90px 0 60px;
+      display:grid;
+      grid-template-columns:1.06fr .94fr;
+      gap:28px;
+      align-items:center;
+    }
+    .eyebrow{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 12px;
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:999px;
+      color:#d4d4d8;
+      background:rgba(255,255,255,.02);
+      font-size:13px;
+      margin-bottom:20px;
+    }
+    h1{
+      margin:0 0 16px;
+      font-size:clamp(42px,7vw,84px);
+      line-height:.95;
+      letter-spacing:-.055em;
+      font-weight:780;
+      max-width:760px;
+    }
+    .lead{
+      margin:0 0 28px;
+      color:var(--soft);
+      font-size:19px;
+      max-width:660px;
+    }
+    .hero-actions{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-bottom:16px;
+    }
+    .subnote{
+      color:var(--muted);
+      font-size:14px;
+      display:flex;
+      gap:16px;
+      flex-wrap:wrap;
+    }
+
+    .panel{
+      background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.02));
+      border:1px solid rgba(255,255,255,.07);
+      border-radius:30px;
+      padding:22px;
+      box-shadow:0 10px 40px rgba(0,0,0,.25);
+    }
+    .hero-card-top{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:12px;
+      padding-bottom:14px;
+      margin-bottom:14px;
+      border-bottom:1px solid rgba(255,255,255,.06);
+    }
+    .small{font-size:13px;color:var(--muted)}
+    .badge{
+      background:#fff;
+      color:#000;
+      border-radius:999px;
+      padding:7px 10px;
+      font-size:12px;
+      font-weight:750;
+    }
+    .mini-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+      margin-bottom:12px;
+    }
+    .mini-box{
+      background:rgba(255,255,255,.03);
+      border:1px solid rgba(255,255,255,.05);
+      border-radius:18px;
+      padding:16px;
+    }
+    .mini-box h3{
+      margin:0 0 8px;
+      font-size:14px;
+      color:#f4f4f5;
+      letter-spacing:.01em;
+    }
+    .mini-box p{
+      margin:0;
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.5;
+    }
+    .chat{
+      margin-top:8px;
+      display:grid;
+      gap:10px;
+    }
+    .bubble{
+      padding:14px 16px;
+      border-radius:18px;
+      font-size:14px;
+      line-height:1.45;
+      max-width:92%;
+      border:1px solid rgba(255,255,255,.06);
+    }
+    .bubble.user{
+      justify-self:end;
+      background:#222;
+      color:#f2f2f2;
+    }
+    .bubble.agent{
+      justify-self:start;
+      background:#101010;
+      color:#d4d4d8;
+    }
+
+    section{padding:28px 0 56px}
+    h2{
+      margin:0 0 12px;
+      font-size:clamp(28px,4vw,46px);
+      line-height:1.02;
+      letter-spacing:-.045em;
+      font-weight:760;
+    }
+    .intro{
+      margin:0 0 24px;
+      color:var(--muted);
+      font-size:17px;
+      max-width:760px;
+    }
+
+    .grid-3{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:18px;
+    }
+    .grid-2{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:18px;
+    }
+    .card{
+      background:var(--panel);
+      border:1px solid rgba(255,255,255,.06);
+      border-radius:26px;
+      padding:22px;
+    }
+    .card h3{
+      margin:0 0 10px;
+      font-size:18px;
+      letter-spacing:-.02em;
+    }
+    .card p{
+      margin:0;
+      color:var(--muted);
+      font-size:15px;
+    }
+    .stat{
+      font-size:36px;
+      line-height:1;
+      letter-spacing:-.05em;
+      font-weight:760;
+      margin:4px 0 10px;
+    }
+
+    .before-after{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:18px;
+    }
+    .before,.after{
+      padding:26px;
+      border-radius:28px;
+      border:1px solid rgba(255,255,255,.06);
+      background:var(--panel);
+    }
+    .before h3,.after h3{
+      margin:0 0 14px;
+      font-size:22px;
+      letter-spacing:-.03em;
+    }
+    ul{
+      margin:0;
+      padding-left:18px;
+      color:#d4d4d8;
+    }
+    li{margin:10px 0}
+
+    .steps{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:18px;
+    }
+    .step-no{
+      display:inline-block;
+      font-size:12px;
+      color:var(--muted);
+      letter-spacing:.08em;
+      margin-bottom:10px;
+    }
+
+    .pricing{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:18px;
+    }
+    .price{
+      margin:10px 0 12px;
+      font-size:42px;
+      line-height:1;
+      letter-spacing:-.05em;
+      font-weight:780;
+    }
+
+    .quote{
+      margin:0 0 10px;
+      font-size:26px;
+      line-height:1.22;
+      letter-spacing:-.04em;
+      max-width:800px;
+    }
+
+    .cta{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:24px;
+    }
+
+    footer{
+      padding:20px 0 60px;
+      color:var(--muted);
+      font-size:14px;
+    }
+
+    @media (max-width: 980px){
+      .hero,
+      .grid-3,
+      .grid-2,
+      .before-after,
+      .steps,
+      .pricing{
+        grid-template-columns:1fr;
+      }
+      .cta{
+        display:block;
+      }
+      .cta .hero-actions{
+        margin-top:18px;
+      }
+      .nav-links a:not(.btn){
+        display:none;
+      }
+    }
+
+    @media (max-width: 640px){
+      .container{padding:0 18px}
+      .hero{padding-top:72px}
+      .hero-actions{display:grid;grid-template-columns:1fr}
+      .btn,.btn-ghost{width:100%}
+      .mini-grid{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <div class="brand">NEUROARK</div>
+      <div class="nav-links">
+        <a href="#problem">Problem</a>
+        <a href="#how">How it works</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#contact" class="btn">Book Demo</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <div>
+        <div class="eyebrow">For salons · simple first product</div>
+        <h1>Still losing bookings on WhatsApp?</h1>
+        <p class="lead">
+          We help salons reply faster, confirm appointments properly, and stop losing customers in chat.
+        </p>
+        <div class="hero-actions">
+          <a class="btn" href="#contact">Book a Demo</a>
+          <a class="btn-ghost" href="#how">See how it works</a>
+        </div>
+        <div class="subnote">
+          <span>Simple setup</span>
+          <span>Clear pricing</span>
+          <span>No complicated system</span>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="hero-card-top">
+          <div>
+            <div class="small">What the client sees</div>
+            <div style="font-size:22px;font-weight:750;margin-top:4px">Simple. Clear. Easy to get.</div>
+          </div>
+          <div class="badge">LIVE IDEA</div>
+        </div>
+
+        <div class="mini-grid">
+          <div class="mini-box">
+            <h3>Problem</h3>
+            <p>People message. Staff get busy. Replies get delayed. Some customers disappear.</p>
+          </div>
+          <div class="mini-box">
+            <h3>Result</h3>
+            <p>Faster replies, cleaner booking flow, and more appointments actually confirmed.</p>
+          </div>
+        </div>
+
+        <div class="chat">
+          <div class="bubble user">Hi, do you have any slot tomorrow?</div>
+          <div class="bubble agent">Yes. We have 2 PM and 4 PM. Which one works for you?</div>
+          <div class="bubble user">4 PM. How much is wash + cut?</div>
+          <div class="bubble agent">RM45. Can I get your name and phone number to confirm the booking?</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="problem">
+      <h2>What this is really selling</h2>
+      <p class="intro">
+        Not “AI”. Not a giant platform. Not a long tech story.
+        You are selling one clear thing: a better WhatsApp booking setup for salons.
+      </p>
+
+      <div class="grid-3">
+        <div class="card">
+          <div class="small">01</div>
+          <div class="stat">Fast</div>
+          <p>Customers get replies faster instead of waiting until staff are free.</p>
+        </div>
+        <div class="card">
+          <div class="small">02</div>
+          <div class="stat">Clean</div>
+          <p>Booking details get collected properly instead of being buried in chat.</p>
+        </div>
+        <div class="card">
+          <div class="small">03</div>
+          <div class="stat">Booked</div>
+          <p>More people actually confirm and show up for the appointment.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Before and after</h2>
+      <p class="intro">
+        This part makes the idea easier to understand in one glance.
+      </p>
+
+      <div class="before-after">
+        <div class="before">
+          <h3>Before</h3>
+          <ul>
+            <li>Replies are slow</li>
+            <li>Messages get missed</li>
+            <li>Booking details are messy</li>
+            <li>No reminder gets sent</li>
+            <li>Some customers go cold</li>
+          </ul>
+        </div>
+
+        <div class="after">
+          <h3>After</h3>
+          <ul>
+            <li>Customers get quick replies</li>
+            <li>Details are collected properly</li>
+            <li>Bookings are easier to confirm</li>
+            <li>Reminder messages get sent</li>
+            <li>Fewer leads get lost</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="how">
+      <h2>How it works</h2>
+      <p class="intro">
+        Keep it to three steps so people understand it immediately.
+      </p>
+
+      <div class="steps">
+        <div class="card">
+          <div class="step-no">STEP 01</div>
+          <h3>Customer messages you</h3>
+          <p>They ask about price, service, or available time on WhatsApp.</p>
+        </div>
+
+        <div class="card">
+          <div class="step-no">STEP 02</div>
+          <h3>The system replies and collects details</h3>
+          <p>It answers common questions and gets the info needed to book properly.</p>
+        </div>
+
+        <div class="card">
+          <div class="step-no">STEP 03</div>
+          <h3>The booking gets confirmed</h3>
+          <p>The details are saved and the customer gets confirmation and reminders.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>What the client gets</h2>
+      <div class="grid-2">
+        <div class="card">
+          <h3>Included</h3>
+          <ul>
+            <li>Auto replies for common questions</li>
+            <li>Booking detail collection</li>
+            <li>Appointment confirmation flow</li>
+            <li>Reminder messages</li>
+            <li>Google Sheet or CRM logging</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Not included in version one</h3>
+          <ul>
+            <li>No giant custom app</li>
+            <li>No heavy enterprise system</li>
+            <li>No complicated setup</li>
+            <li>No overpromising</li>
+            <li>Just one useful service done properly</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="pricing">
+      <h2>Simple pricing</h2>
+      <p class="intro">
+        Fixed scope is easier to understand and easier to sell.
+      </p>
+
+      <div class="pricing">
+        <div class="card">
+          <h3>Setup</h3>
+          <div class="price">RM499–999</div>
+          <p>This covers the first build: replies, booking flow, and basic setup.</p>
+          <ul>
+            <li>Initial setup</li>
+            <li>Booking logic</li>
+            <li>Basic message flow</li>
+            <li>One revision round</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>Monthly support</h3>
+          <div class="price">RM199–399</div>
+          <p>This covers updates, small changes, and making sure everything keeps running well.</p>
+          <ul>
+            <li>Message updates</li>
+            <li>Small workflow changes</li>
+            <li>Basic support</li>
+            <li>Ongoing maintenance</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="panel">
+        <p class="quote">We help salons turn WhatsApp chats into real bookings.</p>
+        <p class="intro" style="margin:0;max-width:none">
+          This line is clearer because people can understand the problem and result in one look.
+        </p>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="panel cta">
+        <div>
+          <h2 style="margin-bottom:10px">Start with something people understand fast.</h2>
+          <p class="intro" style="margin:0;max-width:620px">
+            That is how you get the first client. Simple pain. Simple result. Simple offer.
+          </p>
+        </div>
+
+        <div class="hero-actions" style="margin-bottom:0">
+          <a class="btn" href="#">Book a Demo</a>
+          <a class="btn-ghost" href="#">WhatsApp Us</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="container">
+    NeuroArk — simple first, stronger later.
+  </footer>
+</body>
+</html>
+"""
+
+path = Path("/mnt/data/neuroark_landing_clearer_v2.html")
+path.write_text(html, encoding="utf-8")
+print(f"Saved to {path}")
+STDOUT/STDERR
+Saved to /mnt/data/neuroark_landing_clearer_v2.html
+我直接重做了一版，重点不是“更好看一点”，而是让人一眼就懂你卖什么。
+
+新版本：
+
+这次我改的核心是：
+
+第一屏直接先打痛点
+Still losing bookings on WhatsApp?
+
+立刻讲结果
+We help salons reply faster, confirm appointments properly, and stop losing customers in chat.
+
+行业再缩窄
+不先讲很多行业，先只打 salons
+
+加了 Before / After
+这个很重要，比解释 agent 更容易懂
+
+把流程压成 3 steps
+太多步骤会让人看不清重点
+
+我觉得现在这版比前面几版更接近“有效”。
+
+你现在最该注意的是一句话：
+网站首页不是解释你很厉害，而是让客户立刻知道这是不是给他的。
+
+如果你要，我下一步可以直接继续做这两个方向里的一个：
+更像真正能成交的商业版，或者 更高级、更像 startup brand 的首页版。 
+
+
+
+
+还是不够引诱 营销不够 还有什么特点呢比如 24/7 还有什么呢
+
+
+Thought for 16s
+对。
+你现在缺的不是“更清楚”，而是更想让人点、让人问、让人买。
+
+重点是：
+
+不要只写 feature。要把 feature 翻成老板脑中的好处。
+
+比如：
+
+24/7 reply
+不够强
+要写成
+Reply to customers even when you’re busy, sleeping, or with another client.
+
+reminder
+不够强
+要写成
+Reduce no-shows and get more people to actually show up.
+
+auto booking
+不够强
+要写成
+Stop losing customers in chat and turn more messages into paid appointments.
+
+你这个产品可以卖的点，其实比 24/7 多很多
+最有营销力的 8 个点
+1. 24/7 replies
+客户半夜问也有人回，不会因为你没空就跑掉。
+
+2. No more missed leads
+每一个进来的询问都有人接，不再白白流失。
+
+3. Faster response = higher conversion
+很多时候不是价格问题，是你回太慢。
+
+4. Fill empty slots
+把空档时间更快补满，尤其是 salon 这种很重要。
+
+5. Reduce no-shows
+自动提醒，减少答应了却没来的情况。
+
+6. Less staff stress
+员工不用一直重复回答同样问题。
+
+7. More professional image
+客户会感觉你这家店回复快、流程清楚、比较专业。
+
+8. Simple setup, no complicated system
+老板最怕麻烦。你要让他觉得“很容易开始”。
+
+真正更有引诱力的写法
+不是这样写：
+
+24/7 support
+
+automated workflow
+
+booking system
+
+CRM integration
+
+而是这样写：
+
+Reply to customers even when you are busy
+
+Stop losing bookings in WhatsApp chat
+
+Fill more empty slots
+
+Get fewer no-shows
+
+Spend less time answering the same questions
+
+Look more professional without hiring more staff
+
+这才比较像营销。
+
+你的网站第一页应该先打“钱”和“损失”
+因为老板最敏感的是这个。
+
+你可以直接用这种主标题：
+
+Option 1
+Still losing bookings on WhatsApp?
+
+Option 2
+Your customers are messaging. Some of them are still slipping away.
+
+Option 3
+Reply faster. Book more customers. Lose fewer leads.
+
+Option 4
+Turn WhatsApp chats into real appointments.
+
+这几个都比单纯讲 product 更有拉力。
+
+副标题也要更像“结果”
+例如：
+
+We help salons reply faster, fill more appointment slots, and stop losing customers in chat.
+
+或者更直接一点：
+
+If people are already messaging your salon, we help you turn more of those chats into confirmed bookings.
+
+这句就比较有“钱味”。
+
+你可以加一个非常重要的区域
+“Why salons buy this”
+直接写：
+
+More replies without hiring more staff
+
+More confirmed bookings
+
+Fewer missed messages
+
+Fewer no-shows
+
+Less time wasted on repetitive chat
+
+这会比讲系统架构强很多。
+
+还有一个很有效的方法
+加一个 “even when…” 区块。
+
+因为这很能让人代入。
+
+Example
+Your business can still reply even when:
+
+you are with another customer
+
+your staff are busy
+
+it is after working hours
+
+nobody is checking the phone
+
+the shop is closed
+
+这个会让人马上明白 24/7 的价值，不只是一个技术词。
+
+再往上一个层次，不卖“自动化”，卖“多赚钱 + 少麻烦”
+所以文案可以变成：
+
+Get more bookings without replying to every WhatsApp yourself.
+
+或者：
+
+More bookings, less back-and-forth, less mess.
+
+或者：
+
+Stop letting good customers go cold just because replies were slow.
+
+这个就开始有营销味了。
+
+你这个产品最该强调的卖点排序
+我会这样排：
+
+第一层：钱
+
+get more bookings
+
+lose fewer leads
+
+fill more empty slots
+
+第二层：省事
+
+reply faster
+
+less back-and-forth
+
+fewer repetitive questions
+
+第三层：稳
+
+fewer no-shows
+
+cleaner booking flow
+
+more professional customer experience
+
+第四层：轻
+
+simple setup
+
+no complicated system
+
+no need to hire another person
+
+这个顺序比先讲 24/7 更有效。
+因为 24/7 只是 feature，不是最终欲望。
+
+一套更有营销味的首页第一屏
+你可以直接试这种：
+
+Headline
+Get more salon bookings from WhatsApp.
+
+Subheadline
+We help salons reply faster, reduce missed leads, and turn more chats into confirmed appointments.
+
+3 hook points
+Reply even when your staff are busy
+
+Reduce no-shows with reminders
+
+Fill more empty appointment slots
+
+CTA
+Book Demo
+WhatsApp Us
+
+这个会比现在那种“解释型首页”更能卖。
+
+如果你要更“引诱”一点，可以再狠一点
+Stronger version
+Every slow reply is a possible lost customer.
+
+We help salons reply faster, confirm bookings properly, and stop losing people in chat.
+
+这个就更有刺。
+
+最后一个关键
+你要记住一句：
+
+Feature makes people understand. Outcome makes people want it.
+
+所以不要只想：
+
+24/7
+
+automation
+
+AI
+
+integration
+
+你要想的是：
+
+more bookings
+
+fewer lost customers
+
+less staff workload
+
+fewer no-shows
+
+cleaner customer experience
+
+这个才是营销点。
+
+如果你要，我下一步可以直接帮你把整页改成更有销售力的版本，文案会更偏“老板看了会心动”的方向。
+
+
+可以
+
+
+Analyzed
+我直接帮你做了一版更有营销力的版本，把你刚刚说的点都放进去了：
+
+24/7 replies
+
+fewer missed leads
+
+more confirmed bookings
+
+reduce no-shows
+
+fill more empty slots
+
+less staff stress
+
+more professional image
+
+文件在这里：
+
+这版我重点改了三件事：
+
+第一，首页先打结果，不是先讲产品。
+现在主句变成：
+Get more salon bookings from WhatsApp.
+
+第二，把 feature 翻成更像老板会在意的好处。
+不是只写 24/7，而是写成：
+
+reply even when you are busy
+
+stop missing leads in chat
+
+turn more chats into appointments
+
+stop answering the same thing all day
+
+第三，加了更容易“想买”的区块。
+像：
+
+Before / After
+
+It still works even when…
+
+Why this is easier to sell
+
+这会比前面那种“介绍型网页”更像真正拿来卖服务。
+
+我觉得下一步最值得做的是，把它再往两个方向选一个：
+更狠一点的销售版，或者 更高级一点的品牌版。 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NeuroArk — Get More Salon Bookings from WhatsApp</title>
+  <style>
+    :root{
+      --bg:#0a0a0a;
+      --panel:#131313;
+      --panel2:#181818;
+      --line:#262626;
+      --text:#f5f5f5;
+      --muted:#a1a1aa;
+      --soft:#d4d4d8;
+      --white:#ffffff;
+      --green:#c7f36b;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      background:linear-gradient(180deg,#080808 0%,#101010 100%);
+      color:var(--text);
+      font-family:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing:antialiased;
+      text-rendering:optimizeLegibility;
+      line-height:1.55;
+    }
+    a{text-decoration:none;color:inherit}
+    .container{max-width:1160px;margin:0 auto;padding:0 24px}
+    header{
+      position:sticky;top:0;z-index:50;
+      background:rgba(10,10,10,.78);
+      backdrop-filter:blur(14px);
+      border-bottom:1px solid rgba(255,255,255,.06);
+    }
+    .nav{
+      height:72px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:20px;
+    }
+    .brand{
+      font-size:18px;
+      font-weight:760;
+      letter-spacing:.03em;
+    }
+    .nav-links{
+      display:flex;
+      gap:22px;
+      align-items:center;
+    }
+    .nav-links a{
+      font-size:14px;
+      color:var(--muted);
+    }
+    .btn,.btn-ghost{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      height:50px;
+      padding:0 20px;
+      border-radius:999px;
+      font-size:14px;
+      font-weight:700;
+      border:1px solid transparent;
+      transition:.18s ease;
+      white-space:nowrap;
+    }
+    .btn{
+      background:var(--white);
+      color:#0a0a0a;
+    }
+    .btn-ghost{
+      border-color:rgba(255,255,255,.10);
+      color:var(--text);
+      background:rgba(255,255,255,.02);
+    }
+    .btn:hover,.btn-ghost:hover{transform:translateY(-1px)}
+
+    .hero{
+      padding:94px 0 60px;
+      display:grid;
+      grid-template-columns:1.08fr .92fr;
+      gap:28px;
+      align-items:center;
+    }
+    .eyebrow{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 12px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.02);
+      color:#d4d4d8;
+      font-size:13px;
+      margin-bottom:20px;
+    }
+    h1{
+      margin:0 0 16px;
+      font-size:clamp(44px,7vw,88px);
+      line-height:.93;
+      letter-spacing:-.06em;
+      font-weight:800;
+      max-width:800px;
+    }
+    .lead{
+      margin:0 0 26px;
+      max-width:690px;
+      color:var(--soft);
+      font-size:20px;
+    }
+    .hero-actions{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-bottom:18px;
+    }
+    .mini-points{
+      display:flex;
+      gap:16px;
+      flex-wrap:wrap;
+      color:var(--muted);
+      font-size:14px;
+    }
+
+    .panel{
+      background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.02));
+      border:1px solid rgba(255,255,255,.07);
+      border-radius:30px;
+      padding:22px;
+      box-shadow:0 10px 42px rgba(0,0,0,.25);
+    }
+    .hero-top{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:12px;
+      padding-bottom:14px;
+      border-bottom:1px solid rgba(255,255,255,.06);
+      margin-bottom:14px;
+    }
+    .small{font-size:13px;color:var(--muted)}
+    .badge{
+      background:var(--green);
+      color:#0a0a0a;
+      border-radius:999px;
+      padding:7px 10px;
+      font-size:12px;
+      font-weight:800;
+    }
+
+    .big-proof{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+      margin-bottom:12px;
+    }
+    .proof-box{
+      background:rgba(255,255,255,.03);
+      border:1px solid rgba(255,255,255,.05);
+      border-radius:18px;
+      padding:16px;
+    }
+    .proof-box h3{
+      margin:0 0 8px;
+      font-size:15px;
+    }
+    .proof-box p{
+      margin:0;
+      color:var(--muted);
+      font-size:14px;
+    }
+
+    .chat{
+      display:grid;
+      gap:10px;
+      margin-top:10px;
+    }
+    .bubble{
+      padding:14px 16px;
+      border-radius:18px;
+      font-size:14px;
+      line-height:1.45;
+      border:1px solid rgba(255,255,255,.06);
+      max-width:92%;
+    }
+    .bubble.user{
+      background:#222;
+      justify-self:end;
+      color:#f4f4f5;
+    }
+    .bubble.agent{
+      background:#101010;
+      justify-self:start;
+      color:#d4d4d8;
+    }
+
+    section{padding:28px 0 56px}
+    h2{
+      margin:0 0 12px;
+      font-size:clamp(30px,4vw,48px);
+      line-height:1.02;
+      letter-spacing:-.05em;
+      font-weight:780;
+    }
+    .intro{
+      margin:0 0 24px;
+      max-width:780px;
+      color:var(--muted);
+      font-size:17px;
+    }
+
+    .grid-4{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:18px;
+    }
+    .grid-3{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:18px;
+    }
+    .grid-2{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:18px;
+    }
+    .card{
+      background:var(--panel);
+      border:1px solid rgba(255,255,255,.06);
+      border-radius:26px;
+      padding:22px;
+    }
+    .card h3{
+      margin:0 0 10px;
+      font-size:19px;
+      letter-spacing:-.02em;
+    }
+    .card p{
+      margin:0;
+      color:var(--muted);
+      font-size:15px;
+    }
+    .kicker{
+      display:inline-block;
+      margin-bottom:8px;
+      font-size:12px;
+      color:var(--muted);
+      letter-spacing:.08em;
+      text-transform:uppercase;
+    }
+    .stat{
+      margin:0 0 8px;
+      font-size:36px;
+      line-height:1;
+      letter-spacing:-.05em;
+      font-weight:800;
+    }
+
+    .before-after{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:18px;
+    }
+    .before,.after{
+      padding:26px;
+      border-radius:28px;
+      border:1px solid rgba(255,255,255,.06);
+      background:var(--panel);
+    }
+    .before h3,.after h3{
+      margin:0 0 14px;
+      font-size:22px;
+      letter-spacing:-.03em;
+    }
+
+    .steps{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:18px;
+    }
+    .step-no{
+      display:inline-block;
+      margin-bottom:10px;
+      font-size:12px;
+      color:var(--muted);
+      letter-spacing:.08em;
+      text-transform:uppercase;
+    }
+
+    .pricing{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:18px;
+    }
+    .price{
+      margin:10px 0 12px;
+      font-size:42px;
+      line-height:1;
+      letter-spacing:-.05em;
+      font-weight:800;
+    }
+
+    .quote{
+      margin:0 0 10px;
+      font-size:28px;
+      line-height:1.2;
+      letter-spacing:-.04em;
+      max-width:820px;
+    }
+
+    .cta{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:24px;
+    }
+
+    ul{
+      margin:0;
+      padding-left:18px;
+      color:#d4d4d8;
+    }
+    li{margin:10px 0}
+
+    footer{
+      padding:24px 0 60px;
+      color:var(--muted);
+      font-size:14px;
+    }
+
+    @media (max-width:980px){
+      .hero,.grid-4,.grid-3,.grid-2,.before-after,.steps,.pricing{
+        grid-template-columns:1fr;
+      }
+      .cta{display:block}
+      .cta .hero-actions{margin-top:18px}
+      .nav-links a:not(.btn){display:none}
+    }
+
+    @media (max-width:640px){
+      .container{padding:0 18px}
+      .hero{padding-top:72px}
+      .hero-actions{display:grid;grid-template-columns:1fr}
+      .btn,.btn-ghost{width:100%}
+      .big-proof{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <div class="brand">NEUROARK</div>
+      <div class="nav-links">
+        <a href="#benefits">Benefits</a>
+        <a href="#how">How it works</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#contact" class="btn">Book Demo</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <div>
+        <div class="eyebrow">For salons · built to get more bookings</div>
+        <h1>Get more salon bookings from WhatsApp.</h1>
+        <p class="lead">
+          Reply faster, miss fewer leads, reduce no-shows, and keep your booking flow clean — without replying to every message yourself.
+        </p>
+        <div class="hero-actions">
+          <a class="btn" href="#contact">Book a Demo</a>
+          <a class="btn-ghost" href="#benefits">Why salons buy this</a>
+        </div>
+        <div class="mini-points">
+          <span>24/7 replies</span>
+          <span>Fewer missed leads</span>
+          <span>More confirmed bookings</span>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="hero-top">
+          <div>
+            <div class="small">What people understand in one look</div>
+            <div style="font-size:22px;font-weight:800;margin-top:4px">More bookings. Less mess.</div>
+          </div>
+          <div class="badge">HIGH-INTENT</div>
+        </div>
+
+        <div class="big-proof">
+          <div class="proof-box">
+            <h3>What hurts</h3>
+            <p>People are already messaging your salon. The problem is slow replies, missed chats, and messy booking follow-up.</p>
+          </div>
+          <div class="proof-box">
+            <h3>What changes</h3>
+            <p>Customers get replies faster, bookings get confirmed properly, and fewer people disappear before paying.</p>
+          </div>
+        </div>
+
+        <div class="chat">
+          <div class="bubble user">Hi, do you have any slot tomorrow?</div>
+          <div class="bubble.agent bubble">Yes. We have 2 PM and 4 PM. Which one works for you?</div>
+          <div class="bubble user">4 PM. How much is wash + cut?</div>
+          <div class="bubble.agent bubble">RM45. Can I get your name and phone number to confirm your booking?</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="benefits">
+      <h2>Why this is easier to sell</h2>
+      <p class="intro">
+        Do not sell “AI”. Sell what the owner actually wants: more bookings, fewer missed customers, less manual replying, and a more professional customer experience.
+      </p>
+
+      <div class="grid-4">
+        <div class="card">
+          <div class="kicker">Benefit 01</div>
+          <div class="stat">24/7</div>
+          <h3>Reply even when you are busy</h3>
+          <p>Customers can still get a response when your staff are occupied, after hours, or with another client.</p>
+        </div>
+        <div class="card">
+          <div class="kicker">Benefit 02</div>
+          <div class="stat">Less lost</div>
+          <h3>Stop missing leads in chat</h3>
+          <p>Every inquiry goes into a clear process instead of getting buried in WhatsApp messages.</p>
+        </div>
+        <div class="card">
+          <div class="kicker">Benefit 03</div>
+          <div class="stat">More booked</div>
+          <h3>Turn more chats into appointments</h3>
+          <p>Fast replies and proper follow-up make it easier for a customer to actually confirm the booking.</p>
+        </div>
+        <div class="card">
+          <div class="kicker">Benefit 04</div>
+          <div class="stat">Less stress</div>
+          <h3>Stop answering the same thing all day</h3>
+          <p>Price, services, availability, and booking questions do not need to be typed manually again and again.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>The points that actually pull attention</h2>
+      <div class="grid-3">
+        <div class="card">
+          <h3>Fill more empty slots</h3>
+          <p>If people are already asking, faster replies help you convert more of that interest into real appointments.</p>
+        </div>
+        <div class="card">
+          <h3>Reduce no-shows</h3>
+          <p>Reminder messages help more people actually turn up instead of forgetting or going quiet.</p>
+        </div>
+        <div class="card">
+          <h3>Look more professional</h3>
+          <p>Clear replies and a cleaner booking flow make the salon feel more organised and trustworthy.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Before and after</h2>
+      <p class="intro">
+        This is one of the easiest ways to make the offer feel obvious.
+      </p>
+
+      <div class="before-after">
+        <div class="before">
+          <h3>Before</h3>
+          <ul>
+            <li>Replies depend on who is free</li>
+            <li>Customers wait too long</li>
+            <li>Messages get missed</li>
+            <li>Booking details are messy</li>
+            <li>No reminder gets sent</li>
+            <li>Some good leads go cold</li>
+          </ul>
+        </div>
+
+        <div class="after">
+          <h3>After</h3>
+          <ul>
+            <li>Customers get replies faster</li>
+            <li>Details are collected properly</li>
+            <li>Bookings are easier to confirm</li>
+            <li>Reminder messages go out</li>
+            <li>Fewer no-shows</li>
+            <li>More chats become paid appointments</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>It still works even when…</h2>
+      <div class="grid-3">
+        <div class="card">
+          <h3>Your staff are busy</h3>
+          <p>The business can still respond while someone is cutting hair, washing, or handling another customer.</p>
+        </div>
+        <div class="card">
+          <h3>The shop is closed</h3>
+          <p>People often message after hours. You do not need to lose them just because nobody is holding the phone.</p>
+        </div>
+        <div class="card">
+          <h3>Nobody is checking chat</h3>
+          <p>Instead of a dead inbox, customers get a proper reply path that keeps the conversation moving.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="how">
+      <h2>How it works</h2>
+      <p class="intro">
+        Keep it short. If it takes too long to explain, it becomes harder to sell.
+      </p>
+
+      <div class="steps">
+        <div class="card">
+          <div class="step-no">Step 01</div>
+          <h3>Customer messages the salon</h3>
+          <p>They ask about price, available time, or what service you offer.</p>
+        </div>
+        <div class="card">
+          <div class="step-no">Step 02</div>
+          <h3>The system replies and collects details</h3>
+          <p>It answers common questions and gets the key details needed to book properly.</p>
+        </div>
+        <div class="card">
+          <div class="step-no">Step 03</div>
+          <h3>The booking gets confirmed</h3>
+          <p>The info is saved and the customer gets confirmation and reminder messages.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>What the client gets</h2>
+      <div class="grid-2">
+        <div class="card">
+          <h3>Included</h3>
+          <ul>
+            <li>Auto replies for common questions</li>
+            <li>Price and service replies</li>
+            <li>Booking detail collection</li>
+            <li>Appointment confirmation flow</li>
+            <li>Reminder messages</li>
+            <li>Google Sheet or CRM logging</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Why the offer feels light</h3>
+          <ul>
+            <li>No giant custom app</li>
+            <li>No complicated setup</li>
+            <li>No need to hire another staff member first</li>
+            <li>No big technical change for the salon</li>
+            <li>Just one practical service that solves one real problem</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="pricing">
+      <h2>Simple pricing</h2>
+      <p class="intro">
+        Easy to understand offers are easier to close.
+      </p>
+
+      <div class="pricing">
+        <div class="card">
+          <h3>Setup</h3>
+          <div class="price">RM499–999</div>
+          <p>This covers the first build: replies, booking flow, and getting the system ready to use.</p>
+          <ul>
+            <li>Initial setup</li>
+            <li>Reply logic</li>
+            <li>Booking capture flow</li>
+            <li>One revision round</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>Monthly support</h3>
+          <div class="price">RM199–399</div>
+          <p>This covers updates, small changes, and keeping everything running properly over time.</p>
+          <ul>
+            <li>Message updates</li>
+            <li>Small workflow changes</li>
+            <li>Basic support</li>
+            <li>Ongoing maintenance</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="panel">
+        <p class="quote">We help salons turn WhatsApp chats into real bookings.</p>
+        <p class="intro" style="margin:0;max-width:none">
+          This line sells better because it talks about the result, not the technology.
+        </p>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="panel cta">
+        <div>
+          <h2 style="margin-bottom:10px">Simple pain. Simple result. Easier sale.</h2>
+          <p class="intro" style="margin:0;max-width:660px">
+            If people are already messaging the business, the fastest win is helping them reply better and book more customers.
+          </p>
+        </div>
+
+        <div class="hero-actions" style="margin-bottom:0">
+          <a class="btn" href="#">Book a Demo</a>
+          <a class="btn-ghost" href="#">WhatsApp Us</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="container">
+    NeuroArk — more bookings, less mess.
+  </footer>
+</body>
+</html>
+
+
+
